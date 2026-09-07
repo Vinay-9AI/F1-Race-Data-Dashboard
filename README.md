@@ -1,102 +1,631 @@
 # 🏎️ F1 Race Data Dashboard
 
-A production-quality, interactive Formula 1 analytics dashboard built with **Streamlit**, **FastF1**, **Pandas**, **NumPy**, and **Plotly**. Load any season/Grand Prix/session combination FastF1 supports and explore lap times, tyre strategy, degradation, weather, telemetry, and head-to-head driver comparisons — all from real timing data.
+### 🏁 Explore. Compare. Analyze. Understand Formula 1.
 
-## Overview
+An interactive **Formula 1 analytics platform** built with **Streamlit, FastF1, Pandas, NumPy, and Plotly**.
 
-This dashboard is a self-serve F1 data-analysis tool: pick a season, event and session in the sidebar, pick two drivers to compare, and every page updates from real FastF1 data. It's built to survive missing/partial data (common with older seasons, practice sessions, or sessions affected by red flags) without crashing.
+Turn real F1 timing data into beautiful, interactive visualizations — from **lap-time battles and tyre degradation** to **telemetry, weather, track evolution, and driver comparisons**.
 
-## Features
+> **Select a season → choose a Grand Prix → select a session → compare drivers → explore the data.**
 
-- **Dashboard Overview** — event, circuit, date, driver/lap counts, fastest lap, track & air temperature as metric cards
-- **Driver Comparison** — fastest/average lap, lap-time delta per lap, sector time comparison, valid-lap counts
-- **Lap Time Analysis** — multi-driver lap-time chart with fastest-lap markers and average lines; robust to NaT/NaN, deleted laps, pit laps, and safety-car periods
-- **Tyre Strategy** — horizontal stint visualization (compound, stint length, start/end lap) per driver
-- **Tyre Degradation** — lap time vs. tyre life scatter/line charts by stint and compound, with explicit caveats about fuel load, traffic, and track evolution
-- **Stint Analysis** — filterable table of every stint: compound, laps, average/best pace, tyre life
-- **Weather Analysis** — air/track temperature, humidity, pressure, wind speed, rainfall over the session
-- **Track Evolution** — session-wide median pace trend with rolling average, kept distinct from tyre/fuel effects
-- **Telemetry** — Speed / Throttle / Brake / Gear / DRS vs. distance for the fastest lap of a selected driver
-- **Telemetry Comparison** — Driver 1 vs Driver 2 telemetry aligned on distance
-- **Track Map** — circuit map traced from position telemetry, per driver
-- **Session Summary** — head-to-head recap: fastest/average lap, best sectors, compounds, stints, and the deltas between two drivers
+---
 
-## Architecture
+## ✨ Why This Project?
 
+Formula 1 generates an enormous amount of data every race weekend.
+
+This project transforms that raw timing and telemetry data into an **easy-to-use analytics dashboard** designed for anyone who wants to understand what happened on track.
+
+Instead of looking at thousands of raw data points, you can answer questions like:
+
+* 🏎️ Who was faster?
+* ⏱️ Where did a driver gain or lose time?
+* 🛞 How did the tyres degrade?
+* 🌡️ How did weather conditions change?
+* 📈 Did the track become faster throughout the session?
+* 📡 What did the car telemetry look like?
+* 🗺️ Where on the circuit did drivers differ?
+* 🏁 Which driver had the stronger overall session?
+
+---
+
+# 🚀 Features
+
+## 📊 Interactive Dashboard
+
+A high-level overview of the selected session with key performance metrics.
+
+**Includes:**
+
+* Grand Prix & circuit information
+* Session date
+* Number of drivers
+* Number of laps
+* Fastest lap
+* Track temperature
+* Air temperature
+* Session statistics
+
+---
+
+## 🥊 Driver vs Driver
+
+Put two drivers head-to-head and discover who had the advantage.
+
+**Compare:**
+
+* Fastest lap
+* Average lap
+* Lap-time delta
+* Sector performance
+* Valid-lap count
+* Tyre compounds
+* Stint performance
+
+### Example questions
+
+> Was Verstappen faster overall?
+
+> Which sector gave Leclerc the advantage?
+
+> How large was the average lap-time difference?
+
+---
+
+## ⏱️ Lap Time Analysis
+
+Visualize lap-by-lap performance across the session.
+
+**Features:**
+
+* Multi-driver lap-time comparison
+* Fastest-lap highlighting
+* Average pace lines
+* Lap-by-lap performance
+* Invalid/deleted lap handling
+* Pit-lap filtering
+* Safety-car awareness
+
+The analysis automatically handles missing and incomplete timing data.
+
+---
+
+## 🛞 Tyre Strategy
+
+Understand how teams managed their tyres throughout the session.
+
+Visualize:
+
+* Compound used
+* Stint number
+* Stint duration
+* Start lap
+* End lap
+* Tyre life
+* Fresh vs used tyres
+
+This makes it easy to see the strategic story of a race.
+
+---
+
+## 📉 Tyre Degradation
+
+Analyze how lap pace changes as tyres age.
+
+Visualizations show:
+
+**Lap Time ↔ Tyre Life**
+
+broken down by:
+
+* Driver
+* Stint
+* Compound
+
+> ⚠️ Tyre degradation is not treated as a single causal measurement. Fuel burn-off, traffic, track evolution, safety cars, and driver behaviour can all influence lap time.
+
+---
+
+## 🧩 Stint Analysis
+
+A detailed table containing every tyre stint.
+
+| Driver | Stint | Compound | Laps | Best Pace | Avg Pace | Tyre Life |
+| ------ | ----: | -------- | ---: | --------: | -------: | --------: |
+| VER    |     1 | MEDIUM   |   20 |         — |        — |         — |
+| LEC    |     1 | HARD     |   32 |         — |        — |         — |
+
+Filter and investigate individual stints to understand race strategy and tyre management.
+
+---
+
+## 🌦️ Weather Analysis
+
+Explore session conditions through interactive charts.
+
+Track:
+
+* 🌡️ Air temperature
+* 🛣️ Track temperature
+* 💧 Humidity
+* 🎈 Pressure
+* 💨 Wind speed
+* 🌧️ Rainfall
+
+Useful for understanding how changing conditions may have influenced performance.
+
+---
+
+## 📈 Track Evolution
+
+Track how overall session pace changes over time.
+
+The dashboard calculates:
+
+> **Median lap time per lap number + rolling average**
+
+This provides a simple view of whether the track was generally getting faster or slower.
+
+It is intentionally presented as a **pace proxy**, rather than a direct measurement of track grip.
+
+---
+
+# 📡 Telemetry Analysis
+
+Dive deeper into the car's performance.
+
+Analyze:
+
+* 🚀 Speed
+* 🦶 Throttle
+* 🛑 Brake
+* ⚙️ Gear
+* 📶 DRS
+* 📏 Distance
+
+All telemetry is plotted against circuit distance, allowing detailed analysis of how drivers attack the track.
+
+---
+
+# 🆚 Telemetry Comparison
+
+Compare two drivers on the same distance axis.
+
+The dashboard aligns telemetry using interpolation so that both drivers can be compared across:
+
+**Speed → Throttle → Brake → Gear → DRS**
+
+This makes it possible to identify exactly where one driver gains or loses performance.
+
+---
+
+# 🗺️ Interactive Track Map
+
+Generate the circuit layout directly from car-position telemetry.
+
+Explore:
+
+* Driver racing lines
+* Circuit shape
+* Position data
+* Driver-specific traces
+
+No manually drawn circuit maps are required.
+
+---
+
+# 🏁 Session Summary
+
+A complete head-to-head performance recap.
+
+Includes:
+
+### Driver 1
+
+* Fastest lap
+* Average lap
+* Best sectors
+* Compounds
+* Stints
+
+### Driver 2
+
+* Fastest lap
+* Average lap
+* Best sectors
+* Compounds
+* Stints
+
+### Final comparison
+
+* Lap-time delta
+* Sector advantage
+* Pace difference
+* Strategy comparison
+
+---
+
+# 🧠 Built to Handle Real-World F1 Data
+
+Real motorsport data isn't always perfect.
+
+Sessions can contain:
+
+* Missing telemetry
+* Deleted laps
+* Invalid laps
+* Pit laps
+* Red flags
+* Safety-car periods
+* Missing weather data
+* Partial sessions
+* Network/API failures
+
+The application is designed to **fail gracefully**.
+
+Instead of crashing the dashboard, individual sections display appropriate warnings when data isn't available.
+
+---
+
+# 🏗️ Architecture
+
+```text
+                    ┌─────────────────────┐
+                    │      Streamlit      │
+                    │       app.py        │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      Analysis       │
+                    │    analysis.py      │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │       FastF1        │
+                    │      data.py        │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   F1 Timing Data    │
+                    │   Telemetry/Weather │
+                    └─────────────────────┘
+
+             ┌─────────────────────────────┐
+             │          charts.py         │
+             │      Plotly Visualizations │
+             └─────────────────────────────┘
 ```
-F1 RACE DATA DASHBOARD/
+
+### Project Structure
+
+```text
+F1-RACE-DATA-DASHBOARD/
 │
-├── app.py            # Streamlit UI: sidebar, navigation, page renderers
-├── data.py            # FastF1 access layer (cache setup, session/lap/telemetry/weather loading)
-├── analysis.py         # Pandas/NumPy computation layer (stats, stints, deltas, degradation)
-├── charts.py           # Plotly figure builders (UI-agnostic, takes clean data in)
-├── config.py           # Page config, theme/CSS, constants, defaults
+├── app.py
+├── data.py
+├── analysis.py
+├── charts.py
+├── config.py
 ├── requirements.txt
 ├── README.md
 ├── .gitignore
 │
 ├── utils/
 │   ├── __init__.py
-│   └── helpers.py       # Formatting, safe-access and error-containment helpers
+│   └── helpers.py
 │
 └── data/
-    └── cache/           # FastF1 disk cache (git-ignored, created automatically)
+    └── cache/
 ```
 
-Each layer only depends on the layer(s) below it: `charts.py` and `analysis.py` never import Streamlit, and `data.py` never builds figures. This keeps the FastF1 integration, the analysis, and the UI independently testable and easy to extend.
+### Separation of Responsibilities
 
-## Tech Stack
+| File          | Responsibility                  |
+| ------------- | ------------------------------- |
+| `app.py`      | Streamlit UI & navigation       |
+| `data.py`     | FastF1 data retrieval & caching |
+| `analysis.py` | Data processing & calculations  |
+| `charts.py`   | Plotly visualizations           |
+| `config.py`   | Application configuration       |
+| `helpers.py`  | Formatting & error handling     |
 
-| Layer | Technology |
-|---|---|
-| UI framework | Streamlit |
-| F1 data source | [FastF1](https://docs.fastf1.dev/) |
-| Data wrangling | Pandas, NumPy |
-| Visualization | Plotly (graph_objects) |
-| Language | Python 3.10+ |
+The architecture keeps **data retrieval, analysis, visualization, and UI logic separated**, making the project easier to test and extend.
 
-## Installation
+---
+
+# 🛠️ Technology Stack
+
+| Technology   | Purpose                      |
+| ------------ | ---------------------------- |
+| 🐍 Python    | Core programming language    |
+| 🎨 Streamlit | Interactive web dashboard    |
+| 🏎️ FastF1   | Formula 1 timing & telemetry |
+| 🐼 Pandas    | Data manipulation            |
+| 🔢 NumPy     | Numerical analysis           |
+| 📊 Plotly    | Interactive visualizations   |
+
+---
+
+# ⚡ Getting Started
+
+## 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/F1-RACE-DATA-DASHBOARD.git
+cd F1-RACE-DATA-DASHBOARD
+```
+
+## 2️⃣ Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### macOS / Linux
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+## 3️⃣ Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Running Instructions
+---
+
+## 4️⃣ Launch the dashboard
 
 ```bash
 streamlit run app.py
 ```
 
-The app opens in your browser (default `http://localhost:8501`). On first load it defaults to **2024 Monaco Grand Prix — Race — LEC vs VER** (falling back gracefully if that data isn't available). Use the sidebar to change season, Grand Prix, session, and the two drivers being compared, then click **Load Session**.
+The application will open at:
 
-> First load of any session downloads data via the FastF1 API and can take a while depending on session type (telemetry-heavy sessions like Race take longer than Qualifying). Subsequent loads of the same session are served from FastF1's local disk cache (`data/cache/`) and from Streamlit's in-memory cache.
-
-## Data Source
-
-All data is retrieved live from the **FastF1** Python package, which sources official F1 timing data (lap times, sectors, tyre stints, car telemetry, weather) from the F1 live timing feed and the Ergast API for historical schedule metadata. No data in this dashboard is hardcoded, mocked, or fabricated — every chart and metric is computed directly from what FastF1 returns for the selected session.
-
-## Analysis Methodology
-
-- **Valid laps** exclude laps with no recorded lap time, deleted laps, and in/out (pit) laps; where FastF1 flags a lap as timing-accurate, only accurate laps are used for averages and fastest-lap calculations.
-- **Lap-time delta** charts compare two drivers only on laps both completed (inner join on lap number).
-- **Tyre stints** are reconstructed directly from FastF1's `Stint`/`Compound`/`TyreLife`/`FreshTyre` lap columns — no stint boundaries are inferred or guessed.
-- **Tyre degradation** views intentionally avoid claiming causation: pace changes across a stint can come from tyre wear, fuel burn-off, traffic, track evolution, or safety-car/VSC periods, and the dashboard says so next to the chart.
-- **Track evolution** is approximated as the session-wide median lap time per lap number with a rolling average — a pace proxy, not an isolated grip measurement.
-- **Telemetry comparison** aligns the second driver's channels onto the first driver's distance grid via linear interpolation (`numpy.interp`) so both cars can be plotted on a shared X-axis.
-
-## Error Handling
-
-Every section is wrapped so that a data gap in one chart (missing telemetry, no weather data for older seasons, an unsupported session, etc.) shows a clear warning/info message in that section instead of crashing the whole app. FastF1/network failures during session loading are caught and reported in the sidebar without stopping you from picking a different session.
-
-## Future Improvements
-
-- Multi-driver (3+) comparison mode across all sections
-- Race-position and gap-to-leader charts using timing data
-- Qualifying-specific ideal-lap and mini-sector analysis
-- Downloadable PDF/CSV exports of tables and charts
-- Persistent user session presets (favorite driver pairs, default season)
-- Optional light theme toggle
+```text
+http://localhost:8501
+```
 
 ---
 
-*Not affiliated with Formula 1, the FIA, or any F1 team. Built for portfolio/educational use with the open-source FastF1 package.*
+# 💾 Data & Caching
+
+The dashboard uses **FastF1** to retrieve Formula 1 timing, telemetry, weather, and session information.
+
+The first time a session is loaded, FastF1 may need to download a significant amount of data.
+
+Subsequent requests are faster because the data is stored in the local cache:
+
+```text
+data/cache/
+```
+
+The cache directory is excluded from Git using `.gitignore`.
+
+---
+
+# 🔬 Analysis Methodology
+
+### Valid Lap Filtering
+
+Lap calculations exclude:
+
+* Missing lap times
+* Deleted laps
+* In-laps
+* Out-laps
+* Invalid timing records
+
+Where available, timing-accuracy information is also considered.
+
+### Driver Comparison
+
+Driver lap deltas are calculated by matching drivers on common lap numbers.
+
+```text
+Driver A Lap N
+       ↓
+    Compare
+       ↓
+Driver B Lap N
+       ↓
+    Delta
+```
+
+### Tyre Stints
+
+Stints are reconstructed from FastF1's recorded:
+
+* `Stint`
+* `Compound`
+* `TyreLife`
+* `FreshTyre`
+
+No artificial stint boundaries are created.
+
+### Telemetry Alignment
+
+When comparing telemetry, the second driver's data is aligned to the first driver's distance grid using:
+
+```python
+numpy.interp()
+```
+
+This allows both drivers to share the same distance axis.
+
+---
+
+# 📌 Important Notes
+
+This project is designed for **analytics and educational purposes**.
+
+Lap time is affected by many factors:
+
+```text
+Tyres
+  +
+Fuel
+  +
+Traffic
+  +
+Track Evolution
+  +
+Weather
+  +
+Safety Cars
+  +
+Driver Performance
+  +
+Car Performance
+  ↓
+Observed Lap Time
+```
+
+Therefore, charts such as tyre degradation and track evolution should be interpreted as **performance indicators**, not isolated causal measurements.
+
+---
+
+# 🔮 Future Roadmap
+
+### 🏎️ Race Analytics
+
+* [ ] Race position charts
+* [ ] Gap-to-leader analysis
+* [ ] Position changes
+* [ ] Pit-stop analysis
+* [ ] Race pace comparison
+
+### 📊 Advanced Performance
+
+* [ ] 3+ driver comparison
+* [ ] Ideal lap calculation
+* [ ] Mini-sector analysis
+* [ ] Speed-trap comparison
+* [ ] Corner-by-corner analysis
+
+### 📤 Export
+
+* [ ] CSV exports
+* [ ] PDF reports
+* [ ] Downloadable charts
+* [ ] Automated race reports
+
+### 🎨 UX
+
+* [ ] Light/Dark theme
+* [ ] Driver presets
+* [ ] Saved sessions
+* [ ] Custom dashboard layouts
+
+---
+
+# 🎯 What This Project Demonstrates
+
+This project combines several real-world engineering skills:
+
+**Python Development**
+→ Modular application architecture
+
+**Data Engineering**
+→ API data retrieval, caching, cleaning
+
+**Data Analysis**
+→ Statistical calculations and performance metrics
+
+**Data Visualization**
+→ Interactive Plotly dashboards
+
+**Domain Analytics**
+→ Motorsport, tyre strategy, telemetry
+
+**Software Engineering**
+→ Separation of concerns and error handling
+
+**Product Thinking**
+→ Turning complex raw data into an intuitive user experience
+
+---
+
+# 🏆 Project Highlights
+
+> 🏎️ **Real F1 Data**
+> Powered by FastF1 timing and telemetry data.
+
+> 📊 **Interactive Analytics**
+> Explore sessions dynamically instead of relying on static charts.
+
+> 🧠 **Robust Data Processing**
+> Designed to handle incomplete and imperfect motorsport data.
+
+> ⚡ **Cached Performance**
+> FastF1 caching reduces repeated download times.
+
+> 🎨 **Modern Visualization**
+> Interactive Plotly charts make complex performance data easier to understand.
+
+> 🧩 **Modular Architecture**
+> Data, analysis, visualization, and UI are separated into independent layers.
+
+---
+
+# 📸 Dashboard Preview
+
+> Add screenshots/GIFs of your dashboard here.
+
+Recommended screenshots:
+
+```text
+01 → Main Dashboard
+02 → Driver Comparison
+03 → Tyre Strategy
+04 → Telemetry
+05 → Track Map
+06 → Weather Analysis
+```
+
+A short GIF showing **selecting a Grand Prix → choosing drivers → exploring charts** would make the repository even more impressive.
+
+---
+
+# 🌐 Data Source
+
+Data is retrieved using the open-source **FastF1** Python package.
+
+FastF1 provides access to Formula 1 timing, telemetry, weather, and session information.
+
+---
+
+# ⚖️ Disclaimer
+
+This project is **not affiliated with Formula 1, FIA, or any Formula 1 team**.
+
+Built for **portfolio, educational, analytical, and experimental purposes** using the open-source FastF1 ecosystem.
+
+---
+
+# 👨‍💻 Author
+
+### **Vinay**
+
+Computer Science & Engineering
+Python • Data Analytics • AI/ML • Full-Stack Development
+
+---
+
+## ⭐ If you found this project interesting
+
+Give the repository a ⭐ and feel free to explore, fork, or build upon it.
+
+### 🏎️ Turn raw race data into racing insights.
